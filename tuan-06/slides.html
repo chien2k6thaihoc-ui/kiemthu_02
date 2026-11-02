@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Báo Cáo Kiểm Thử Tự Động - Tuần 06</title>
+  <style>
+    @page {
+      size: 1920px 1080px;
+      margin: 0;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background-color: #090d16;
+      color: #f1f5f9;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      padding: 70px 90px;
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+      background: radial-gradient(circle at 85% 15%, rgba(30, 58, 138, 0.25) 0%, rgba(15, 23, 42, 0.95) 70%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-bottom: 2px solid #1e293b;
+    }
+    
+    /* Header & Badge */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 25px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid #3b82f6;
+      border-radius: 20px;
+      color: #60a5fa;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .slide-title {
+      font-size: 38px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 10px;
+      letter-spacing: -0.5px;
+    }
+    .slide-subtitle {
+      font-size: 18px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+    .page-number {
+      font-size: 18px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    /* Content Area */
+    .content {
+      flex: 1;
+      display: flex;
+      gap: 36px;
+      align-items: stretch;
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-body {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+    ul.bullet-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul.bullet-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 12px;
+    }
+    ul.bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 6px;
+      color: #38bdf8;
+      font-size: 22px;
+      line-height: 1;
+      top: -2px;
+    }
+
+    /* Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 18px;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    /* Code Blocks */
+    .code-box {
+      background: #030712;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 14px;
+      color: #e2e8f0;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+    .hl-kw { color: #f472b6; }
+    .hl-str { color: #34d399; }
+    .hl-fn { color: #60a5fa; }
+    .hl-cm { color: #64748b; font-style: italic; }
+
+    /* Highlight Tags */
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-right: 6px;
+    }
+    .tag-green { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+    .tag-red { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .tag-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: TRANG BÌA -->
+  <div class="slide" style="justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #1e293b 0%, #090d16 80%);">
+    <div style="max-width: 1200px;">
+      <div class="badge" style="margin-bottom: 24px; padding: 8px 24px; font-size: 16px;">Thực hành Kiểm thử Phần mềm — Tuần 06</div>
+      <h1 style="font-size: 58px; font-weight: 900; line-height: 1.15; margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 40%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        TỔNG QUAN KIỂM THỬ TỰ ĐỘNG & DEMO ĐĂNG NHẬP
+      </h1>
+      <p style="font-size: 24px; color: #94a3b8; margin-bottom: 40px; font-weight: 400;">
+        Trình bày vòng 1: Kiến trúc Appium, Tháp kiểm thử & Kịch bản thực thi trên App Mobile
+      </p>
+      
+      <div style="display: inline-flex; gap: 40px; padding: 24px 48px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; text-align: left;">
+        <div>
+          <div style="color: #64748b; font-size: 13px; text-transform: uppercase; font-weight: 700;">Nhóm thực hiện</div>
+          <div style="color: #f1f5f9; font-size: 18px; font-weight: 600; margin-top: 4px;">Nhóm Mobile App (Repo: kiemthu_02)</div>
+        </div>
+        <div style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 40px;">
+          <div style="color: #64748b; font-size: 13px; text-transform: uppercase; font-weight: 700;">Công nghệ chính</div>
+          <div style="color: #38bdf8; font-size: 18px; font-weight: 600; margin-top: 4px;">Python 3.14 · pytest · Appium 2 · UiAutomator2</div>
+        </div>
+        <div style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 40px;">
+          <div style="color: #64748b; font-size: 13px; text-transform: uppercase; font-weight: 700;">Đối tượng kiểm thử</div>
+          <div style="color: #34d399; font-size: 18px; font-weight: 600; margin-top: 4px;">Swag Labs Android (Sauce Labs Sample App)</div>
+        </div>
+      </div>
+    </div>
+    <div style="position: absolute; bottom: 40px; color: #475569; font-size: 14px;">Báo cáo tiến độ Tuần 06 — 2026</div>
+  </div>
+
+  <!-- SLIDE 2: KIỂM THỬ TỰ ĐỘNG LÀ GÌ? -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <span class="badge">Nền Tảng Lý Thuyết</span>
+        <h2 class="slide-title">Kiểm Thử Tự Động: Bản Chất, Lợi Ích & Giới Hạn</h2>
+        <p class="slide-subtitle">Hiểu rõ mục đích và cân nhắc kinh tế trước khi tự động hóa</p>
+      </div>
+      <div class="page-number">02 / 08</div>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div class="card-title">📌 Bản chất & Lợi ích cốt lõi</div>
+        <div class="card-body">
+          <p style="margin-bottom: 16px;"><b>Kiểm thử tự động (Automation Testing):</b> Sử dụng mã lập trình để điều khiển phần mềm, nạp dữ liệu và kiểm tra kết quả thực tế với mong đợi mà không cần con người thao tác trực tiếp.</p>
+          <ul class="bullet-list">
+            <li><b>Tốc độ & Tính lặp lại:</b> Chạy lại hàng trăm kịch bản kiểm thử hồi quy (Regression Testing) trong vài phút khi có bản build mới.</li>
+            <li><b>Độ tin cậy cao:</b> Không mệt mỏi, không bỏ sót bước thao tác, dữ liệu nhập chính xác tuyệt đối.</li>
+            <li><b>Tiết kiệm chi phí dài hạn:</b> Chi phí đầu tư ban đầu cao cho việc viết script, nhưng chi phí trên mỗi lần chạy giảm mạnh về 0.</li>
+            <li><b>Tích hợp CI/CD:</b> Tự động phát hiện lỗi sớm (Shift Left) ngay khi merge code.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 4px solid #f59e0b;">
+        <div class="card-title" style="color: #fbbf24;">⚠️ Khi nào NÊN và KHÔNG NÊN dùng?</div>
+        <div class="card-body">
+          <div style="margin-bottom: 14px;">
+            <span class="tag tag-green">NÊN TỰ ĐỘNG HÓA</span>
+            <ul class="bullet-list" style="margin-top: 8px;">
+              <li>Chức năng trọng yếu: Đăng nhập, thanh toán, luồng nghiệp vụ cốt lõi (Core Business Flow).</li>
+              <li>Kiểm thử hồi quy lặp đi lặp lại qua nhiều phiên bản.</li>
+              <li>Kiểm thử dữ liệu lớn (Data-driven) với nhiều bộ tham số.</li>
+            </ul>
+          </div>
+          <div style="margin-top: 14px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 14px;">
+            <span class="tag tag-red">KHÔNG NÊN DÙNG</span>
+            <ul class="bullet-list" style="margin-top: 8px;">
+              <li>Giao diện/nghiệp vụ đang thay đổi liên tục hàng ngày (Script sẽ liên tục gãy).</li>
+              <li>Kiểm thử thăm dò (Exploratory Testing) đòi hỏi tư duy sáng tạo của con người.</li>
+              <li>Kiểm thử trải nghiệm người dùng (UX), cảm quan thẩm mỹ đồ họa.</li>
+              <li>Tính năng chỉ chạy 1 lần duy nhất (Chi phí viết test lớn hơn chạy tay).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div>Môn học: Kiểm thử tự động phần mềm</div>
+      <div>Nhóm Mobile App · kiemthu_02</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: THÁP KIỂM THỬ -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <span class="badge">Chiến Lược Kiểm Thử</span>
+        <h2 class="slide-title">Các Cách Tiếp Cận & Tháp Kiểm Thử (Test Pyramid)</h2>
+        <p class="slide-subtitle">Mô hình phân tầng theo Martin Fowler giúp phân bổ nguồn lực tối ưu</p>
+      </div>
+      <div class="page-number">03 / 08</div>
+    </div>
+
+    <div class="content">
+      <!-- Cột vẽ tháp trực quan -->
+      <div class="card" style="flex: 1.2; justify-content: center; align-items: center;">
+        <svg width="480" height="360" viewBox="0 0 480 360" style="overflow: visible;">
+          <!-- UI Tests (Top) -->
+          <polygon points="240,30 160,130 320,130" fill="rgba(239, 68, 68, 0.25)" stroke="#ef4444" stroke-width="2"/>
+          <text x="240" y="85" text-anchor="middle" fill="#fca5a5" font-size="14" font-weight="700">UI / E2E Tests</text>
+          <text x="240" y="105" text-anchor="middle" fill="#cbd5e1" font-size="11">Ít nhất, Chậm, Chi phí cao</text>
+
+          <!-- Integration / API Tests (Middle) -->
+          <polygon points="152,140 328,140 376,230 104,230" fill="rgba(59, 130, 246, 0.25)" stroke="#3b82f6" stroke-width="2"/>
+          <text x="240" y="175" text-anchor="middle" fill="#93c5fd" font-size="15" font-weight="700">Service / Integration / API Tests</text>
+          <text x="240" y="198" text-anchor="middle" fill="#cbd5e1" font-size="11">Tốc độ trung bình, Kiểm tra liên kết dịch vụ</text>
+
+          <!-- Unit Tests (Bottom) -->
+          <polygon points="96,240 384,240 440,330 40,330" fill="rgba(34, 197, 94, 0.25)" stroke="#22c55e" stroke-width="2"/>
+          <text x="240" y="275" text-anchor="middle" fill="#86efac" font-size="16" font-weight="700">Unit Tests (Kiểm thử đơn vị)</text>
+          <text x="240" y="300" text-anchor="middle" fill="#cbd5e1" font-size="12">Nhiều nhất, Nhanh nhất, Rẻ nhất, Cách ly logic</text>
+
+          <!-- Trục mũi tên tốc độ & chi phí -->
+          <line x1="455" y1="320" x2="455" y2="40" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4"/>
+          <polygon points="455,30 450,42 460,42" fill="#94a3b8"/>
+          <text x="465" y="185" fill="#94a3b8" font-size="11" transform="rotate(90 465,185)" text-anchor="middle">Chi phí & Thời gian chạy tăng dần</text>
+        </svg>
+      </div>
+
+      <!-- Cột giải thích và liên hệ bài thực hành -->
+      <div class="card" style="flex: 1.1;">
+        <div class="card-title">⚖️ Vị trí của dự án trong Tháp Kiểm Thử</div>
+        <div class="card-body">
+          <p style="margin-bottom: 14px;">Dự án của team tập trung vào tầng <b>UI / End-to-End Tests</b> trên thiết bị di động (Mobile App):</p>
+          <ul class="bullet-list">
+            <li><b>Đặc thù UI Mobile Test:</b> Trực tiếp tương tác lên các thành phần đồ họa (nút bấm, ô nhập, thông báo) giống 100% như người dùng thật.</li>
+            <li><b>Thách thức lớn nhất:</b> Tốc độ khởi động máy ảo/app chậm, dễ bị "Flaky" (chập chờn) nếu mạng lag hoặc hiệu ứng chuyển trang chưa kết thúc.</li>
+            <li><b>Giải pháp khắc phục:</b>
+              <br>- Không dùng kiểm thử UI cho mọi trường hợp chi tiết (để Unit test lo).
+              <br>- Thiết kế các luồng E2E có giá trị nghiệp vụ cao nhất.
+              <br>- Tuyệt đối áp dụng <b>Explicit Wait (Chờ tường minh)</b>, không dùng <code>time.sleep</code>.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div>Tham chiếu: Martin Fowler — The Practical Test Pyramid</div>
+      <div>Nhóm Mobile App · kiemthu_02</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: KIẾN TRÚC APPIUM (HÌNH TỰ VẼ) -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <span class="badge" style="background: rgba(168, 85, 247, 0.2); border-color: #a855f7; color: #c084fc;">Kiến Trúc Hệ Thống — Tự Thiết Kế</span>
+        <h2 class="slide-title">Kiến Trúc Hoạt Động Của Appium 2 & UiAutomator2</h2>
+        <p class="slide-subtitle">Sơ đồ 4 tầng từ mã kiểm thử Python đến đối tượng Swag Labs trên thiết bị Android</p>
+      </div>
+      <div class="page-number">04 / 08</div>
+    </div>
+
+    <div class="content" style="flex-direction: column; justify-content: center;">
+      <!-- Sơ đồ kiến trúc SVG chuẩn 4 tầng -->
+      <div class="card" style="padding: 24px; background: rgba(10, 15, 30, 0.9);">
+        <svg width="100%" height="450" viewBox="0 0 1600 450" style="overflow: visible;">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+            </marker>
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+            </marker>
+          </defs>
+
+          <!-- TẦNG 1: TEST CLIENT -->
+          <g transform="translate(40, 40)">
+            <rect width="320" height="360" rx="14" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+            <rect width="320" height="48" rx="14" fill="#1e3a8a"/>
+            <text x="160" y="32" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">1. TEST SCRIPT / CLIENT</text>
+            <text x="160" y="80" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="600">pytest & Appium Python Client</text>
+            
+            <rect x="25" y="105" width="270" height="110" rx="8" fill="#030712" stroke="#1f2937"/>
+            <text x="35" y="130" fill="#94a3b8" font-size="12" font-family="monospace"># tuan-05/test_login.py</text>
+            <text x="35" y="150" fill="#f472b6" font-size="12" font-family="monospace">def test_login_success():</text>
+            <text x="45" y="170" fill="#38bdf8" font-size="12" font-family="monospace">driver.find_element(...)</text>
+            <text x="45" y="190" fill="#34d399" font-size="12" font-family="monospace">.send_keys("standard_user")</text>
+
+            <rect x="25" y="235" width="270" height="140" rx="8" fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.2)"/>
+            <text x="35" y="260" fill="#cbd5e1" font-size="13" font-weight="600">Nhiệm vụ:</text>
+            <text x="35" y="285" fill="#94a3b8" font-size="12">• Đóng gói W3C WebDriver Request</text>
+            <text x="35" y="305" fill="#94a3b8" font-size="12">• Gửi JSON HTTP qua endpoint 4723</text>
+            <text x="35" y="325" fill="#94a3b8" font-size="12">• Nhận phản hồi và thực thi assert</text>
+            <text x="35" y="345" fill="#94a3b8" font-size="12">• Quản lý vòng đời driver (quit)</text>
+          </g>
+
+          <!-- MŨI TÊN 1 -> 2 -->
+          <g>
+            <path d="M 360 200 L 450 200" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+            <path d="M 450 240 L 360 240" stroke="#34d399" stroke-width="2" stroke-dasharray="5" marker-end="url(#arrow-green)"/>
+            <text x="405" y="185" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">W3C HTTP</text>
+            <text x="405" y="260" text-anchor="middle" fill="#34d399" font-size="11">JSON Resp</text>
+          </g>
+
+          <!-- TẦNG 2: APPIUM SERVER -->
+          <g transform="translate(460, 40)">
+            <rect width="320" height="360" rx="14" fill="#0f172a" stroke="#8b5cf6" stroke-width="2"/>
+            <rect width="320" height="48" rx="14" fill="#5b21b6"/>
+            <text x="160" y="32" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">2. APPIUM SERVER (Node.js)</text>
+            <text x="160" y="80" text-anchor="middle" fill="#c084fc" font-size="15" font-weight="600">Appium 2.x Core Hub</text>
+
+            <rect x="25" y="105" width="270" height="110" rx="8" fill="#030712" stroke="#1f2937"/>
+            <text x="35" y="130" fill="#a78bfa" font-size="13" font-weight="600">Endpoint: 127.0.0.1:4723</text>
+            <text x="35" y="155" fill="#94a3b8" font-size="12">• Session Routing & Capabilities</text>
+            <text x="35" y="175" fill="#94a3b8" font-size="12">• WebDriver Protocol Parsing</text>
+            <text x="35" y="195" fill="#94a3b8" font-size="12">• Điều phối Driver tương ứng</text>
+
+            <rect x="25" y="235" width="270" height="140" rx="8" fill="rgba(139, 92, 246, 0.08)" stroke="rgba(139, 92, 246, 0.2)"/>
+            <text x="35" y="260" fill="#cbd5e1" font-size="13" font-weight="600">Driver quản lý:</text>
+            <text x="35" y="285" fill="#c084fc" font-size="13" font-weight="700">uiautomator2@8.7.0</text>
+            <text x="35" y="310" fill="#94a3b8" font-size="12">• Giao tiếp với ADB bridge</text>
+            <text x="35" y="330" fill="#94a3b8" font-size="12">• Forward cổng 6790 vào máy</text>
+            <text x="35" y="350" fill="#94a3b8" font-size="12">• Biên dịch lệnh thành JSON-RPC</text>
+          </g>
+
+          <!-- MŨI TÊN 2 -> 3 -->
+          <g>
+            <path d="M 780 200 L 870 200" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+            <path d="M 870 240 L 780 240" stroke="#34d399" stroke-width="2" stroke-dasharray="5" marker-end="url(#arrow-green)"/>
+            <text x="825" y="185" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">ADB Forward</text>
+            <text x="825" y="260" text-anchor="middle" fill="#34d399" font-size="11">Netty RPC</text>
+          </g>
+
+          <!-- TẦNG 3: ANDROID DEVICE / DRIVER SERVER -->
+          <g transform="translate(880, 40)">
+            <rect width="320" height="360" rx="14" fill="#0f172a" stroke="#059669" stroke-width="2"/>
+            <rect width="320" height="48" rx="14" fill="#065f46"/>
+            <text x="160" y="32" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">3. UIAUTOMATOR2 SERVER</text>
+            <text x="160" y="80" text-anchor="middle" fill="#34d399" font-size="15" font-weight="600">Android Device / Emulator</text>
+
+            <rect x="25" y="105" width="270" height="110" rx="8" fill="#030712" stroke="#1f2937"/>
+            <text x="35" y="130" fill="#34d399" font-size="12" font-family="monospace">io.appium.uiautomator2.server</text>
+            <text x="35" y="150" fill="#94a3b8" font-size="12">• Chạy dưới dạng Test Service</text>
+            <text x="35" y="170" fill="#94a3b8" font-size="12">• Netty HTTP Server cổng 6790</text>
+            <text x="35" y="190" fill="#94a3b8" font-size="12">• Quyền hạn hệ thống Android</text>
+
+            <rect x="25" y="235" width="270" height="140" rx="8" fill="rgba(5, 150, 105, 0.08)" stroke="rgba(5, 150, 105, 0.2)"/>
+            <text x="35" y="260" fill="#cbd5e1" font-size="13" font-weight="600">Thao tác trực tiếp:</text>
+            <text x="35" y="285" fill="#94a3b8" font-size="12">• Gọi Android UiAutomator API</text>
+            <text x="35" y="305" fill="#94a3b8" font-size="12">• Duyệt Accessibility Node Hierarchy</text>
+            <text x="35" y="325" fill="#94a3b8" font-size="12">• Inject touch, type, scroll event</text>
+            <text x="35" y="345" fill="#94a3b8" font-size="12">• Bắn dump UI về cho server</text>
+          </g>
+
+          <!-- MŨI TÊN 3 -> 4 -->
+          <g>
+            <path d="M 1200 200 L 1290 200" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+            <path d="M 1290 240 L 1200 240" stroke="#34d399" stroke-width="2" stroke-dasharray="5" marker-end="url(#arrow-green)"/>
+            <text x="1245" y="185" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">OS Event</text>
+            <text x="1245" y="260" text-anchor="middle" fill="#34d399" font-size="11">UI State</text>
+          </g>
+
+          <!-- TẦNG 4: TARGET APPLICATION (AUT) -->
+          <g transform="translate(1300, 40)">
+            <rect width="260" height="360" rx="14" fill="#0f172a" stroke="#e11d48" stroke-width="2"/>
+            <rect width="260" height="48" rx="14" fill="#9f1239"/>
+            <text x="130" y="32" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">4. APP KIỂM THỬ (AUT)</text>
+            <text x="130" y="80" text-anchor="middle" fill="#fda4af" font-size="15" font-weight="600">Swag Labs Mobile App</text>
+
+            <rect x="20" y="105" width="220" height="270" rx="8" fill="#030712" stroke="#1f2937"/>
+            <text x="30" y="135" fill="#f43f5e" font-size="12" font-weight="700">Package:</text>
+            <text x="30" y="155" fill="#e2e8f0" font-size="11" font-family="monospace">com.swaglabsmobileapp</text>
+            <text x="30" y="185" fill="#f43f5e" font-size="12" font-weight="700">Activity:</text>
+            <text x="30" y="205" fill="#e2e8f0" font-size="11" font-family="monospace">.MainActivity</text>
+            
+            <rect x="30" y="235" width="200" height="120" rx="6" fill="#1e293b"/>
+            <text x="130" y="265" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="600">Accessibility Elements</text>
+            <text x="40" y="290" fill="#94a3b8" font-size="11">• test-Username</text>
+            <text x="40" y="310" fill="#94a3b8" font-size="11">• test-Password</text>
+            <text x="40" y="330" fill="#94a3b8" font-size="11">• test-LOGIN</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div>Hình kiến trúc tự thiết kế bởi nhóm Mobile App · kiemthu_02</div>
+      <div>Appium 2.x Architecture Model</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: CHIẾN LƯỢC LOCATOR TRÊN ANDROID -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <span class="badge">Kỹ Thuật Thực Hành</span>
+        <h2 class="slide-title">Chiến Lược Xác Định Phần Tử (Locator Strategy)</h2>
+        <p class="slide-subtitle">3 việc cốt lõi của kiểm thử giao diện & Bảng xếp hạng độ bền vững của Locator</p>
+      </div>
+      <div class="page-number">05 / 08</div>
+    </div>
+
+    <div class="content">
+      <div class="card" style="flex: 1.1;">
+        <div class="card-title">🎯 3 Việc cốt lõi của kiểm thử UI</div>
+        <div class="card-body">
+          <div style="margin-bottom: 16px; padding: 12px; background: rgba(56, 189, 248, 0.08); border-radius: 8px;">
+            <b style="color: #38bdf8;">1. Tìm phần tử (Find Element):</b> Định vị chính xác tọa độ/đối tượng trên cây UI thông qua Driver.
+          </div>
+          <div style="margin-bottom: 16px; padding: 12px; background: rgba(168, 85, 247, 0.08); border-radius: 8px;">
+            <b style="color: #c084fc;">2. Thao tác (Interact):</b> Nhập văn bản (<code>send_keys</code>), xóa dữ liệu cũ (<code>clear</code>), chạm/bấm (<code>click</code>), vuốt màn hình.
+          </div>
+          <div style="padding: 12px; background: rgba(34, 197, 94, 0.08); border-radius: 8px;">
+            <b style="color: #4ade80;">3. Kiểm tra kết quả (Assert):</b> So sánh trạng thái thực tế hiển thị với dữ liệu kỳ vọng bằng <code>assert</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="flex: 1.3;">
+        <div class="card-title">🏆 Thứ tự ưu tiên Locator trên Android</div>
+        <div class="card-body">
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); color: #94a3b8;">
+                <th style="padding: 8px 12px;">Độ ưu tiên</th>
+                <th style="padding: 8px 12px;">Phương thức</th>
+                <th style="padding: 8px 12px;">Thuộc tính Android</th>
+                <th style="padding: 8px 12px;">Đánh giá & Vì sao?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 10px 12px;"><span class="tag tag-green">Số 1 (Tốt nhất)</span></td>
+                <td style="padding: 10px 12px; font-family: monospace; color: #38bdf8;">ACCESSIBILITY_ID</td>
+                <td style="padding: 10px 12px; font-family: monospace;">content-desc</td>
+                <td style="padding: 10px 12px;">Bền nhất. Gắn liền mục đích trợ năng, độc lập bố cục giao diện, chạy được cả iOS/Android.</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 10px 12px;"><span class="tag tag-blue">Số 2 (Khuyên dùng)</span></td>
+                <td style="padding: 10px 12px; font-family: monospace; color: #38bdf8;">ID</td>
+                <td style="padding: 10px 12px; font-family: monospace;">resource-id</td>
+                <td style="padding: 10px 12px;">Rất tốt khi lập trình viên gán id duy nhất trong layout XML.</td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 10px 12px;"><span class="tag tag-blue">Số 3</span></td>
+                <td style="padding: 10px 12px; font-family: monospace; color: #38bdf8;">-android uiautomator</td>
+                <td style="padding: 10px 12px; font-family: monospace;">UiSelector()</td>
+                <td style="padding: 10px 12px;">Mạnh mẽ khi cần tìm theo văn bản text hoặc quan hệ cha-con nội bộ Android.</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 12px;"><span class="tag tag-red">Hạn chế tối đa</span></td>
+                <td style="padding: 10px 12px; font-family: monospace; color: #f87171;">XPATH (Tuyệt đối)</td>
+                <td style="padding: 10px 12px; font-family: monospace;">/hierarchy/...</td>
+                <td style="padding: 10px 12px;">Cực kỳ dễ gãy khi đổi layout, hiệu năng phân tích cây DOM mobile rất chậm.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 14px; font-size: 13px; color: #94a3b8; font-style: italic;">
+            * Mẫu chuẩn đã chạy trong repo: <code>AppiumBy.ACCESSIBILITY_ID, "test-Username"</code>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div>Nguyên tắc: Tránh tuyệt đối XPath tuyệt đối trên Mobile App</div>
+      <div>Nhóm Mobile App · kiemthu_02</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: KỊCH BẢN ĐĂNG NHẬP W05 -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <span class="badge">Nội Dung Thực Hành</span>
+        <h2 class="slide-title">Kịch Bản Kiểm Thử Đăng Nhập (Tuần 05)</h2>
+        <p class="slide-subtitle">3 Test Case hoàn chỉnh: 1 trường hợp thành công & 2 trường hợp xử lý lỗi biên</p>
+      </div>
+      <div class="page-number">06 / 08</div>
+    </div>
+
+    <div class="content">
+      <!-- TC 1 -->
+      <div class="card" style="border-top: 4px solid #22c55e;">
+        <div class="card-title" style="color: #4ade80; font-size: 18px;">
+          TC-05-01: Đăng nhập hợp lệ
+        </div>
+        <div class="card-body" style="font-size: 14px;">
+          <div style="margin-bottom: 8px;"><b>Loại:</b> <span class="tag tag-green">Positive (Thành công)</span></div>
+          <p><b>Dữ liệu:</b></p>
+          <div class="code-box" style="margin: 6px 0; font-size: 12px;">
+            Username: standard_user<br>
+            Password: secret_sauce
+          </div>
+          <p><b>Các bước thực hiện:</b></p>
+          <ul class="bullet-list" style="margin: 6px 0;">
+            <li>Nhập Username và Password</li>
+            <li>Bấm nút LOGIN</li>
+          </ul>
+          <p><b>Kết quả mong đợi:</b></p>
+          <div style="color: #4ade80; background: rgba(34,197,94,0.1); padding: 8px; border-radius: 6px; margin-top: 4px;">
+            ✔ Chuyển hướng vào màn hình chính, xuất hiện chữ <b>PRODUCTS</b>.
+          </div>
+        </div>
+      </div>
+
+      <!-- TC 2 -->
+      <div class="card" style="border-top: 4px solid #ef4444;">
+        <div class="card-title" style="color: #f87171; font-size: 18px;">
+          TC-05-02: Tài khoản bị khóa
+        </div>
+        <div class="card-body" style="font-size: 14px;">
+          <div style="margin-bottom: 8px;"><b>Loại:</b> <span class="tag tag-red">Negative (Thất bại)</span></div>
+          <p><b>Dữ liệu:</b></p>
+          <div class="code-box" style="margin: 6px 0; font-size: 12px;">
+            Username: locked_out_user<br>
+            Password: secret_sauce
+          </div>
+          <p><b>Các bước thực hiện:</b></p>
+          <ul class="bullet-list" style="margin: 6px 0;">
+            <li>Nhập tài khoản bị khoá</li>
+            <li>Bấm nút LOGIN</li>
+          </ul>
+          <p><b>Kết quả mong đợi:</b></p>
+          <div style="color: #f87171; background: rgba(239,68,68,0.1); padding: 8px; border-radius: 6px; margin-top: 4px;">
+            ✔ Hiển thị thông báo: <i>"Sorry, this user has been locked out."</i>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC 3 -->
+      <div class="card" style="border-top: 4px solid #f59e0b;">
+        <div class="card-title" style="color: #fbbf24; font-size: 18px;">
+          TC-05-03: Bỏ trống Mật khẩu
+        </div>
+        <div class="card-body" style="font-size: 14px;">
+          <div style="margin-bottom: 8px;"><b>Loại:</b> <span class="tag tag-red">Negative (Bỏ trống)</span></div>
+          <p><b>Dữ liệu:</b></p>
+          <div class="code-box" style="margin: 6px 0; font-size: 12px;">
+            Username: standard_user<br>
+            Password: (bỏ trống)
+          </div>
+          <p><b>Các bước thực hiện:</b></p>
+          <ul class="bullet-list" style="margin: 6px 0;">
+            <li>Nhập Username, không nhập Pass</li>
+            <li>Bấm nút LOGIN</li>
+          </ul>
+          <p><b>Kết quả mong đợi:</b></p>
+          <div style="color: #fbbf24; background: rgba(245,158,11,0.1); padding: 8px; border-radius: 6px; margin-top: 4px;">
+            ✔ Hiển thị thông báo: <i>"Password is required"</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div>Đúng quy định môn học: Luôn có ≥ 1 trường hợp sai hoặc thao tác biên</div>
+      <div>Nhóm Mobile App · kiemthu_02</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: GIẢI THÍCH MÃ NGUỒN & WAIT -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <span class="badge">Kỹ Thuật Lập Trình</span>
+        <h2 class="slide-title">Giải Thích Mã Nguồn & Chiến Lược Chờ Tường Minh</h2>
+        <p class="slide-subtitle">Tránh lỗi flaky bằng WebDriverWait và quản lý vòng đời Driver an toàn</p>
+      </div>
+      <div class="page-number">07 / 08</div>
+    </div>
+
+    <div class="content">
+      <div class="card" style="flex: 1.3;">
+        <div class="card-title">💻 Cấu trúc chuẩn trong <code>test_login.py</code></div>
+        <div class="card-body">
+          <div class="code-box" style="font-size: 13px;">
+<span class="hl-kw">def</span> <span class="hl-fn">test_login_success</span>():
+    driver = <span class="hl-kw">None</span>
+    <span class="hl-kw">try</span>:
+        <span class="hl-cm"># 1. Khởi tạo phiên kết nối Appium Server</span>
+        driver = webdriver.Remote(<span class="hl-str">"http://127.0.0.1:4723"</span>, options=options)
+        wait = WebDriverWait(driver, 15)
+
+        <span class="hl-cm"># 2. Thao tác: Nhập thông tin & Bấm Login</span>
+        login(driver, <span class="hl-str">"standard_user"</span>, <span class="hl-str">"secret_sauce"</span>)
+
+        <span class="hl-cm"># 3. Chờ tường minh màn hình kết quả (PRODUCTS)</span>
+        header = wait.until(EC.visibility_of_element_located((
+            AppiumBy.XPATH, <span class="hl-str">"//*[@text='PRODUCTS']"</span>
+        )))
+        <span class="hl-kw">assert</span> header.is_displayed(), <span class="hl-str">"Không thấy màn hình Products"</span>
+    <span class="hl-kw">finally</span>:
+        <span class="hl-cm"># 4. BẮT BUỘC: Đóng driver giải phóng session</span>
+        <span class="hl-kw">if</span> driver: driver.quit()
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="flex: 1;">
+        <div class="card-title">⏱️ Vì sao KHÔNG dùng <code>time.sleep</code>?</div>
+        <div class="card-body">
+          <ul class="bullet-list">
+            <li><b>Lãng phí thời gian:</b> <code>time.sleep(10)</code> bắt hệ thống đứng yên 10 giây dù phần tử đã xuất hiện sau 1 giây. Hàng trăm test case sẽ làm bộ test chạy mất hàng giờ.</li>
+            <li><b>Vẫn dễ bị đứt (Flaky):</b> Nếu mạng hoặc máy giật quá 10 giây, test vẫn fail vô lý.</li>
+            <li><b>Ưu thế của <code>WebDriverWait</code> (Explicit Wait):</b>
+              <br>• Liên tục thăm dò (polling mỗi 500ms).
+              <br>• Tiếp tục chạy <b>ngay khi</b> phần tử đạt điều kiện (tiết kiệm thời gian tối đa).
+              <br>• Chỉ timeout và báo lỗi khi thực sự quá thời gian chờ tối đa.
+            </li>
+            <li><b>Quản lý phiên trong <code>finally</code>:</b> Đảm bảo phiên Appium luôn được đóng kể cả khi test bị lỗi (assert fail).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div>Điều kiện đạt W07 chuẩn bị trước: Tuyệt đối không dùng time.sleep</div>
+      <div>Nhóm Mobile App · kiemthu_02</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: KẾT LUẬN & ĐỊNH HƯỚNG TIẾP THEO -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <span class="badge" style="background: rgba(34, 197, 94, 0.2); border-color: #22c55e; color: #4ade80;">Tổng Kết & Lộ Trình</span>
+        <h2 class="slide-title">Tổng Kết Vòng 1 & Kế Hoạch Các Tuần Tiếp Theo</h2>
+        <p class="slide-subtitle">Hoàn thành giai đoạn làm quen và chuẩn bị cho các kịch bản kiểm thử phức tạp</p>
+      </div>
+      <div class="page-number">08 / 08</div>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div class="card-title">✅ Đã hoàn thành (Tuần 04 - Tuần 06)</div>
+        <div class="card-body">
+          <ul class="bullet-list">
+            <li><b>Tuần 04:</b> Cài đặt môi trường Appium 2, UiAutomator2, Android SDK; chạy thành công bài smoke test đầu tiên trên app Swag Labs.</li>
+            <li><b>Tuần 05:</b> Viết tài liệu kịch bản <code>testcases.md</code>; hoàn thiện 3 bài kiểm thử Đăng nhập (thành công, tài khoản khoá, bỏ trống pass).</li>
+            <li><b>Tuần 06:</b> Hệ thống hóa kiến trúc Appium 4 tầng, hiểu sâu về Tháp kiểm thử, hoàn thành bài báo cáo và trình bày vòng 1.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 4px solid #38bdf8;">
+        <div class="card-title">🚀 Định hướng tuần tiếp theo (Tuần 07 - Tuần 11)</div>
+        <div class="card-body">
+          <ul class="bullet-list">
+            <li><b>Tuần 07 (Chức năng 2 & Chờ đúng lúc):</b> Thí nghiệm so sánh việc có/không có lệnh chờ; cài đặt 2-3 bài test cho Chức năng 2 (ví dụ: Xem chi tiết & Thêm giỏ hàng).</li>
+            <li><b>Tuần 08 (Chức năng 3 & Báo cáo HTML):</b> Tích hợp <code>pytest-html</code>; chạy toàn bộ test bằng 1 câu lệnh duy nhất xuất <code>report.html</code>.</li>
+            <li><b>Tuần 09 (Ổn định hóa):</b> Chạy kiểm tra độ ổn định 3 lần liên tiếp không lỗi; quay video demo 3 phút.</li>
+            <li><b>Tuần 10 - 11:</b> Trình bày vòng 2 & Nộp báo cáo tổng kết môn học.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div>Cảm ơn Thầy Cô và các bạn đã lắng nghe! — Q&A</div>
+      <div>Nhóm Mobile App · kiemthu_02</div>
+    </div>
+  </div>
+
+</body>
+</html>
