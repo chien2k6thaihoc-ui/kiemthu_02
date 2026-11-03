@@ -1,11 +1,13 @@
 # Ghi chú Tuần 07 — Chức năng 2: Đăng xuất qua Menu (Swag Labs, Android)
 
-> ✅ **TRẠNG THÁI CHẠY: ĐÃ HOÀN THÀNH VÀ CHẠY THÀNH CÔNG (3/3 PASSED).**
-> - Thiết bị kiểm thử: Điện thoại thật Android 14 (Model BVL-AN00 / Honor Magic 6 Pro), kết nối ADB (`ATLSVB4103012319`).
-> - Appium server v2.16.2 lắng nghe tại cổng `http://127.0.0.1:4723`.
-> - Cả 3 test case trong `test_dang_xuat.py` chạy thực tế thành công 100% trong 54.84 giây.
+> ✅ **TRẠNG THÁI CHẠY: ĐÃ HOÀN THÀNH VÀ CHẠY THÀNH CÔNG (4/4 PASSED + A4 PASSED).**
+> - Thiết bị kiểm thử: Điện thoại thật Android 14 (Model BVL-AN00 / Honor Magic 6 Pro), kết nối ADB qua cáp USB (`ATLSVB4103012319`).
+> - Appium server lắng nghe tại cổng `http://127.0.0.1:4723`.
+> - Cả 4 test case trong `test_dang_xuat.py` chạy thực tế thành công 100% trong 65.86 giây.
+> - Bài kiểm thử A4 tiêu chuẩn (`test_a4_appium_session_menu.py`) chạy thành công 100% trong 16.68 giây.
+> - Thí nghiệm cơ chế chờ (`thi_nghiem_wait.py`) chạy thành công 100% (2/2 passed) trong 28.83 giây.
 > - **Tuyệt đối KHÔNG dùng `time.sleep`**; toàn bộ mã nguồn sử dụng cơ chế chờ tường minh `WebDriverWait` và `expected_conditions`.
-> - Đã chụp và lưu ảnh bằng chứng vào `tuan-07/anh/` (`tc01_logout_thanh_cong.png`, `tc02_relogin_sau_logout.png`, `tc03_cancel_logout.png`).
+> - Đã chụp và lưu ảnh bằng chứng vào `tuan-07/anh/` (`tc01_logout_thanh_cong.png`, `tc02_relogin_sau_logout.png`, `tc03_cancel_logout.png`, `tc04_thao_tac_sai_chua_login.png`, `tc01_a4_logout_thanh_cong.png`).
 
 ---
 

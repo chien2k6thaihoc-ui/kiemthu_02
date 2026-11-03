@@ -1,7 +1,7 @@
 # Ghi chú Tuần 05 — Bài kiểm thử chức năng Đăng nhập (Swag Labs, Android)
 
 > ✅ **TRẠNG THÁI CHẠY: ĐÃ HOÀN THÀNH VÀ CHẠY THÀNH CÔNG (3/3 PASSED).**
-> - Thiết bị đã kết nối qua ADB không dây (`adb connect 192.168.1.18:41785`).
+> - Thiết bị kết nối qua ADB USB thật (Serial: `ATLSVB4103012319`, Model Honor Magic 6 Pro / BVL-AN00).
 > - Appium server v2.16.2 đã khởi chạy ở cổng 4723.
 > - Cả 3 test case trong `test_login.py` đã chạy thực tế và đều PASS.
 > - Đã chụp và lưu ảnh bằng chứng vào `tuan-05/anh/` (`tc01_login_success.png`, `tc02_locked_out_user.png`, `tc03_empty_password.png`).

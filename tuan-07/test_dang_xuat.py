@@ -163,7 +163,7 @@ def test_relogin_after_logout():
 
 
 # ---------------------------------------------------------------------------
-# BÀI KIỂM THỬ 3: Thao tác huỷ đăng xuất (Negative / Cancel flow)
+# BÀI KIỂM THỬ 3: Thao tác huỷ đăng xuất (Cancel flow)
 # ---------------------------------------------------------------------------
 def test_cancel_logout_via_close_button():
     """
@@ -191,6 +191,35 @@ def test_cancel_logout_via_close_button():
 
         # Bước 5: Chụp ảnh bằng chứng
         screenshot_path = os.path.join(EVIDENCE_DIR, "tc03_cancel_logout.png")
+        driver.save_screenshot(screenshot_path)
+    finally:
+        driver.quit()
+
+
+# ---------------------------------------------------------------------------
+# BÀI KIỂM THỬ 4: Thao tác sai - Cố gắng mở menu/đăng xuất khi chưa đăng nhập
+# ---------------------------------------------------------------------------
+def test_invalid_access_menu_when_not_logged_in():
+    """
+    TC-07-04: Thao tác sai / Ngoại lệ (Negative / Invalid Action).
+    Khi chưa đăng nhập (đang ở màn hình Login), cố gắng tìm và tương tác với menu
+    đăng xuất. Đảm bảo ứng dụng bảo mật, không hiển thị menu điều hướng khi chưa xác thực.
+    """
+    driver = create_driver()
+    try:
+        wait = WebDriverWait(driver, WAIT_TIMEOUT)
+
+        # Bước 1: Chờ màn hình đăng nhập hiển thị
+        login_input = wait.until(EC.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, LOC_USERNAME)))
+        assert login_input.is_displayed(), "Màn hình đăng nhập không hiển thị"
+
+        # Bước 2: Kiểm tra nút menu (test-Menu) tuyệt đối không được xuất hiện
+        # Đặt timeout ngắn để kiểm tra sự vắng mặt của phần tử
+        menu_elements = driver.find_elements(AppiumBy.ACCESSIBILITY_ID, LOC_MENU_BTN)
+        assert len(menu_elements) == 0, "Lỗi bảo mật: Nút Menu vẫn xuất hiện ở màn hình Đăng nhập!"
+
+        # Bước 3: Chụp ảnh bằng chứng màn hình đăng nhập không có nút menu
+        screenshot_path = os.path.join(EVIDENCE_DIR, "tc04_thao_tac_sai_chua_login.png")
         driver.save_screenshot(screenshot_path)
     finally:
         driver.quit()

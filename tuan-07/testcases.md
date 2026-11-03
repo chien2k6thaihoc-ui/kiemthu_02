@@ -13,9 +13,11 @@
 
 | Mã test case | Tên ca kiểm thử | Loại kiểm thử | Mục đích kiểm tra | Kết quả mong đợi | Trạng thái |
 |---|---|---|---|---|---|
+| **TC-A4** | Bài kiểm thử A4: Phiên Appium & Menu | Luồng hoàn chỉnh E2E (A4 Standard) | Kiểm tra toàn bộ 6 bước chuẩn: Tạo phiên WebDriver, Đăng nhập, Vào Products, Mở Menu, Chọn Logout, Quay về Login | Hoàn thành cả 6 bước chuẩn, giải phóng session an toàn | ✅ Đạt (PASSED) |
 | **TC-07-01** | Đăng xuất thành công qua menu | Dương tính (Positive) | Kiểm tra luồng đăng xuất chuẩn qua side menu | Ứng dụng kết thúc phiên làm việc, trở về màn hình Đăng nhập | ✅ Đạt (PASSED) |
 | **TC-07-02** | Đăng nhập lại sau khi đăng xuất | Dương tính (Positive) | Kiểm tra tính tái sử dụng và giải phóng session sau đăng xuất | Đăng nhập lại thành công với tài khoản chuẩn, hiển thị màn hình PRODUCTS | ✅ Đạt (PASSED) |
-| **TC-07-03** | Mở menu và huỷ đăng xuất (bấm nút Đóng) | Luồng ngoại lệ / Huỷ bỏ (Negative) | Kiểm tra việc người dùng mở menu nhưng huỷ thao tác đăng xuất | Menu đóng lại an toàn, người dùng vẫn ở lại màn hình PRODUCTS, phiên không bị huỷ | ✅ Đạt (PASSED) |
+| **TC-07-03** | Mở menu và huỷ đăng xuất (bấm nút Đóng) | Luồng ngoại lệ / Huỷ bỏ (Cancel Flow) | Kiểm tra việc người dùng mở menu nhưng huỷ thao tác đăng xuất | Menu đóng lại an toàn, người dùng vẫn ở lại màn hình PRODUCTS, phiên không bị huỷ | ✅ Đạt (PASSED) |
+| **TC-07-04** | Cố gắng mở menu/đăng xuất khi chưa đăng nhập | Thao tác sai / Bảo mật (Invalid Action) | Kiểm tra trường hợp chưa đăng nhập, người dùng cố tình tìm menu để đăng xuất | Ứng dụng không hiển thị menu điều hướng trên màn hình Login; thao tác bị chặn | ✅ Đạt (PASSED) |
 
 ---
 
@@ -119,6 +121,54 @@
 - Menu đóng thành công, ứng dụng giữ nguyên trạng thái làm việc tại màn hình PRODUCTS.
 - Đã lưu ảnh bằng chứng `tuan-07/anh/tc03_cancel_logout.png`.
 
+**Trạng thái:** ✅ Đạt (PASSED)
+
+---
+
+### TC-A4 — Bài kiểm thử A4: Phiên Appium (Remote WebDriver) & Menu (6 bước chuẩn)
+
+| Trường thông tin | Chi tiết |
+|---|---|
+| **Mã test case** | TC-A4 |
+| **Tên test case** | Bài kiểm thử A4: Phiên Appium (Remote WebDriver) & Menu |
+| **Chức năng** | Chức năng 2 — Đăng xuất qua menu (Team A4 Lab Standard) |
+| **Mục đích** | Thực hiện toàn bộ 6 yêu cầu kỹ thuật của bài thực hành A4: Cấu hình Android, Tạo phiên Remote WebDriver, Đăng nhập & kiểm tra màn hình PRODUCTS, Mở menu & kiểm tra menu hiển thị, Chọn Logout & kiểm tra quay về Login, Đóng phiên trong finally |
+| **Điều kiện tiên quyết** | Appium Server đang chạy, thiết bị Android đã kết nối ADB, ứng dụng Swag Labs đã cài đặt |
+
+**Các bước thực hiện:**
+1. Khai báo cấu hình Android (`platformName='Android'`, `automationName='UiAutomator2'`, `deviceName`, `appPackage`, `appActivity`, `noReset=True`).
+2. Tạo phiên kết nối bằng `webdriver.Remote(APPIUM_SERVER, options=options)`.
+3. Nhập username (`standard_user`), password (`secret_sauce`), bấm `test-LOGIN` và kiểm tra tiêu đề `PRODUCTS`.
+4. Bấm `test-Menu`, kiểm tra menu hiển thị (`test-LOGOUT` xuất hiện).
+5. Bấm `test-LOGOUT`, kiểm tra ứng dụng quay về màn hình đăng nhập (ô `test-Username` hiển thị).
+6. Chụp ảnh màn hình lưu bằng chứng.
+7. Đóng phiên bằng `driver.quit()` trong khối `finally`.
+
+**Kết quả mong đợi:** Toàn bộ 6 bước hoàn thành trơn tru, không có lỗi, phiên làm việc được giải phóng đúng chuẩn.  
+**Kết quả thực tế:** Test case A4 chạy đạt 100%, ảnh lưu tại `tuan-07/anh/tc01_a4_logout_thanh_cong.png`.  
+**Trạng thái:** ✅ Đạt (PASSED)
+
+---
+
+### TC-07-04 — Thao tác sai / Ngoại lệ: Cố gắng mở menu khi chưa đăng nhập (Invalid Action)
+
+| Trường thông tin | Chi tiết |
+|---|---|
+| **Mã test case** | TC-07-04 |
+| **Tên test case** | Thao tác sai: Cố gắng mở menu khi chưa đăng nhập |
+| **Chức năng** | Chức năng 2 — Đăng xuất qua menu (Team A4) |
+| **Mục đích** | Kiểm tra tính bảo mật và logic điều hướng: khi người dùng chưa đăng nhập (đang ở màn hình Login), nút menu điều hướng không được phép xuất hiện, ngăn chặn thao tác sai |
+| **Điều kiện tiên quyết** | Ứng dụng khởi động từ trạng thái sạch (chưa đăng nhập) |
+
+**Các bước thực hiện:**
+1. Khởi chạy ứng dụng Swag Labs.
+2. Chờ màn hình đăng nhập hiển thị (`test-Username` hiển thị).
+3. Tìm kiếm phần tử nút Menu (`test-Menu`) trên giao diện đăng nhập: `driver.find_elements(AppiumBy.ACCESSIBILITY_ID, "test-Menu")`.
+4. Kiểm tra danh sách phần tử trả về: Phải là danh sách rỗng (`len == 0`), không có nút menu trên màn hình đăng nhập.
+5. Chụp ảnh màn hình làm bằng chứng kiểm thử thao tác sai.
+
+**Kết quả mong đợi:** Nút Menu hoàn toàn không tồn tại trên màn hình đăng nhập, thao tác mở menu khi chưa đăng nhập bị chặn.  
+**Kết quả thực tế:** Danh sách phần tử `test-Menu` rỗng (`len == 0`), đúng như thiết kế bảo mật của ứng dụng.  
 **Trạng thái:** ✅ Đạt (PASSED)
 
 ---
