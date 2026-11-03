@@ -11,9 +11,14 @@ Mục đích:
 """
 
 import os
+import sys
 import time
 import subprocess
 import pytest
+
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy

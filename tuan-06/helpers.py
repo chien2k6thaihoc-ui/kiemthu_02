@@ -1,4 +1,4 @@
-"""Hàm dùng chung + locator cho bài tuần 06 (Swag Labs / Sauce Labs My Demo App - Android)."""
+"""Hàm dùng chung + locator cho bài tuần 06 (Sauce Labs My Demo App - Android)."""
 import os
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support import expected_conditions as EC
@@ -6,30 +6,38 @@ from selenium.webdriver.support import expected_conditions as EC
 SCREENSHOT_DIR = os.path.join(os.path.dirname(__file__), "anh")
 os.makedirs(SCREENSHOT_DIR, exist_ok=True)
 
-# ---------- Locators (kiểm tra lại bằng Appium Inspector nếu app khác) ----------
-ITEM = (AppiumBy.ACCESSIBILITY_ID, "store item")
-ITEM_TITLE = (AppiumBy.ACCESSIBILITY_ID, "store item text")
-ITEM_PRICE = (AppiumBy.ACCESSIBILITY_ID, "store item price")
-SORT_BTN = (AppiumBy.ACCESSIBILITY_ID, "sort button")
-SORT_NAME_ASC = (AppiumBy.ACCESSIBILITY_ID, "nameAsc")
-SORT_NAME_DESC = (AppiumBy.ACCESSIBILITY_ID, "nameDesc")
-SORT_PRICE_ASC = (AppiumBy.ACCESSIBILITY_ID, "priceAsc")
-SORT_PRICE_DESC = (AppiumBy.ACCESSIBILITY_ID, "priceDesc")
-ADD_TO_CART = (AppiumBy.ACCESSIBILITY_ID, "Add To Cart button")
-CART_ICON = (AppiumBy.ACCESSIBILITY_ID, "cart badge")
-CART_ITEM = (AppiumBy.ACCESSIBILITY_ID, "product row")
-REMOVE_ITEM = (AppiumBy.ACCESSIBILITY_ID, "remove item")
+# ---------- Locators (đã xác minh thực tế trên com.saucelabs.mydemoapp.android) ----------
+ITEM = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/productIV")
+ITEM_TITLE = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/titleTV")
+ITEM_PRICE = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/priceTV")
+SORT_BTN = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/sortIV")
+SORT_NAME_ASC = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/nameAscCL")
+SORT_NAME_DESC = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/nameDesCL")
+SORT_PRICE_ASC = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/priceAscCL")
+SORT_PRICE_DESC = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/priceDesCL")
+ADD_TO_CART = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/cartBt")
+CART_ICON = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/cartRL")
+CART_ITEM = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/removeBt")
+REMOVE_ITEM = (AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/removeBt")
 ANDROID_OK_BUTTON = (AppiumBy.ID, "android:id/button1")
 
 
 def titles(driver):
     """Danh sách tên sản phẩm đang hiển thị."""
-    return [e.text for e in driver.find_elements(*ITEM_TITLE)]
+    return [e.text for e in driver.find_elements(*ITEM_TITLE) if e.text]
 
 
 def prices(driver):
     """Danh sách giá (float) đang hiển thị."""
-    return [float(e.text.replace("$", "").strip()) for e in driver.find_elements(*ITEM_PRICE)]
+    res = []
+    for e in driver.find_elements(*ITEM_PRICE):
+        t = e.text.replace("$", "").replace(",", ".").strip()
+        if t:
+            try:
+                res.append(float(t))
+            except ValueError:
+                pass
+    return res
 
 
 def choose_sort(driver, wait, option):
